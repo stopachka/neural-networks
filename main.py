@@ -46,15 +46,7 @@ def update_weights(neg_examples, pos_examples, w, learn_rate):
 
     return reduce(apply_pos, pos_examples, reduce(apply_neg, neg_examples, w))
 
-def learn(
-    neg_examples,
-    pos_examples,
-    w,
-    feasible,
-    error_history = [],
-    weight_dist_history = [],
-    learn_rate = 1/2.0
-):
+def learn(neg_examples, pos_examples, w, feasible, learn_rate = 1/2.0):
     def recur(w, error_history, weight_dist_history):
         (error_history, weight_dist_history) = display(
             neg_examples,
@@ -74,7 +66,7 @@ def learn(
         else:
             print 'Got ', choice, '. See ya!'
 
-    recur(w, error_history, weight_dist_history)
+    recur(w, [], [])
 
 
 # -----------------------------------------------------------------------------
