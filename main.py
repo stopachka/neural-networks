@@ -10,13 +10,17 @@ def load_data(name):
 def add_bias(examples):
     return np.column_stack([examples, np.ones(examples.shape[0])])
 
-def learn(datastet):
-    neg_examples = add_bias(datastet['neg_examples_nobias'])
-    pos_examples = add_bias(datastet['pos_examples_nobias'])
-    initial_w = datastet['w_init']
-    feasible_w = datastet['w_gen_feas']
+def initial_weight(w):
+    if (w == None):
+        return np.random.randn(3, 1)
+    else:
+        return w
 
-    print eval_weight(neg_examples, pos_examples, initial_w)
+def initial_feasible(w):
+    if (w == None):
+        return numpy.array([])
+    else:
+        return w
 
 def activation(example, w):
     return np.dot(example, w)
@@ -43,6 +47,16 @@ def eval_weight(neg_examples, pos_examples, w):
 
     return (mistakes0, mistakes1)
 
+def learn(datastet):
+    neg_examples = add_bias(datastet['neg_examples_nobias'])
+    pos_examples = add_bias(datastet['pos_examples_nobias'])
+    initial_w = initial_weight(datastet['w_init'])
+    feasible_w = initial_feasible(datastet['w_gen_feas'])
+
+    print initial_w
+    print feasible_w
+
+
 # -----------------------------------------------------------------------------
 # Plot
 
@@ -50,6 +64,6 @@ def eval_weight(neg_examples, pos_examples, w):
 # Init
 
 def init():
-    print "Todo"
+    learn()
 
 init()
