@@ -1,6 +1,6 @@
 %% Learns the weights of a perceptron and displays the results.
 function [w] = learn_perceptron(neg_examples_nobias,pos_examples_nobias,w_init,w_gen_feas)
-%% 
+%%
 % Learns the weights of a perceptron for a 2-dimensional dataset and plots
 % the perceptron at each iteration where an iteration is defined as one
 % full pass through the data. If a generously feasible weight vector
@@ -89,7 +89,7 @@ end
 
 %WRITE THE CODE TO COMPLETE THIS FUNCTION
 function [w] = update_weights(neg_examples, pos_examples, w_current)
-%% 
+%%
 % Updates the weights of the perceptron for incorrectly classified points
 % using the perceptron update algorithm. This function makes one sweep
 % over the dataset.
@@ -124,7 +124,7 @@ for i=1:num_pos_examples
 end
 
 function [mistakes0, mistakes1] =  eval_perceptron(neg_examples, pos_examples, w)
-%% 
+%%
 % Evaluates the perceptron using a given weight vector. Here, evaluation
 % refers to finding the data points that the perceptron incorrectly classifies.
 % Inputs:
@@ -157,4 +157,3 @@ for i=1:num_pos_examples
         mistakes1 = [mistakes1;i];
     end
 end
-

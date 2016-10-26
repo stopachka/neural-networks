@@ -12,7 +12,7 @@ def add_bias(examples):
     return np.column_stack([examples, np.ones(examples.shape[0])])
 
 def activation(example, w):
-    return np.dot(example, w)
+    return np.dot(example, w)[0]
 
 def eval_weight(neg_examples, pos_examples, w):
     def mistakes(f, examples):
@@ -30,9 +30,23 @@ def eval_weight(neg_examples, pos_examples, w):
     return (neg_mistakes, pos_mistakes)
 
 
-def update_weights(neg_examples, pos_examples, w):
-    print "TODO_UPDATE_WEIGHTS"
-    return w
+def update_weights(neg_examples, pos_examples, w, learn_rate):
+    def apply_neg(w, example):
+        a = activation(example, w)
+        if a >= 0:
+            return w + learn_rate * np.column_stack(example).T * (0.0 - a)
+        else:
+            return w
+
+    def apply_pos(w, example):
+        a = activation(example, w)
+        if a < 0:
+            print
+            return w + learn_rate * np.column_stack(example).T * (1.0 - a)
+        else:
+            return w
+
+    return reduce(apply_pos, pos_examples, reduce(apply_neg, neg_examples, w))
 
 def learn(
     neg_examples,
@@ -40,7 +54,8 @@ def learn(
     w,
     feasible,
     error_history = [],
-    weight_dist_history = []
+    weight_dist_history = [],
+    learn_rate = 1/2.0
 ):
     def recur(w, error_history, weight_dist_history):
         (error_history, weight_dist_history) = display(
@@ -52,12 +67,12 @@ def learn(
             weight_dist_history
         )
 
-        new_w = update_weights(neg_examples, pos_examples, w)
+        new_w = update_weights(neg_examples, pos_examples, w, learn_rate)
 
         choice = raw_input('Continue? (y/n)')
 
         if choice == 'y':
-            recur(w, error_history, weight_dist_history)
+            recur(new_w, error_history, weight_dist_history)
         else:
             print 'Got ', choice, '. See ya!'
 
@@ -66,9 +81,6 @@ def learn(
 
 # -----------------------------------------------------------------------------
 # display
-
-def histories(neg_examples, pos_examples, w, feasible):
-    return ("TODO_HISTORY", "TODO_HISTORY")
 
 def display(
     neg_examples,
