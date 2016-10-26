@@ -1,8 +1,9 @@
-import scipy.io as sio
 import numpy as np
+import scipy.io as sio
+from plot import plot_perceptron
 
 # -----------------------------------------------------------------------------
-# Learn
+# learn
 
 def load_data(name):
     return sio.loadmat('coursera/Datasets/' + name)
@@ -28,19 +29,87 @@ def eval_weight(neg_examples, pos_examples, w):
 
     return (neg_mistakes, pos_mistakes)
 
-def learn(datastet):
-    neg_examples = add_bias(datastet['neg_examples_nobias'])
-    pos_examples = add_bias(datastet['pos_examples_nobias'])
-    initial_w = datastet['w_init']
-    feasible_w = datastet['w_gen_feas']
+
+def update_weights(neg_examples, pos_examples, w):
+    print "TODO_UPDATE_WEIGHTS"
+    return w
+
+def learn(
+    neg_examples,
+    pos_examples,
+    w,
+    feasible,
+    error_history = [],
+    weight_dist_history = []
+):
+    def recur(w, error_history, weight_dist_history):
+        (error_history, weight_dist_history) = display(
+            neg_examples,
+            pos_examples,
+            w,
+            feasible,
+            error_history,
+            weight_dist_history
+        )
+
+        new_w = update_weights(neg_examples, pos_examples, w)
+
+        choice = raw_input('Continue? (y/n)')
+
+        if choice == 'y':
+            recur(w, error_history, weight_dist_history)
+        else:
+            print 'Got ', choice, '. See ya!'
+
+    recur(w, error_history, weight_dist_history)
+
 
 # -----------------------------------------------------------------------------
-# Plot
+# display
+
+def histories(neg_examples, pos_examples, w, feasible):
+    return ("TODO_HISTORY", "TODO_HISTORY")
+
+def display(
+    neg_examples,
+    pos_examples,
+    w,
+    feasible,
+    error_history,
+    weight_dist_history
+):
+    (neg_mistakes, pos_mistakes) = eval_weight(neg_examples, pos_examples, w)
+
+    error_history = error_history + [len(neg_mistakes) + len(pos_mistakes)]
+    weight_dist_history = weight_dist_history + [np.linalg.norm(w - feasible)]
+
+    print 'negative sample errors: ', len(pos_mistakes)
+    print 'positive sample errors: ', len(pos_mistakes)
+    print 'weights: ', w,
+
+    plot_perceptron(
+        neg_examples,
+        pos_examples,
+        neg_mistakes,
+        pos_mistakes,
+        error_history,
+        w,
+        weight_dist_history
+    )
+
+    return (error_history, weight_dist_history)
 
 # -----------------------------------------------------------------------------
-# Init
+# init
 
 def init():
-    learn(load_data('dataset1.mat'))
+    dataset = load_data('dataset1.mat')
+
+    neg_examples = add_bias(dataset['neg_examples_nobias'])
+    pos_examples = add_bias(dataset['pos_examples_nobias'])
+    initial_w = dataset['w_init']
+    feasible_w = dataset['w_gen_feas']
+
+    learn(neg_examples, pos_examples, initial_w, feasible_w)
 
 init()
