@@ -41,10 +41,6 @@ def learn(datastet):
     initial_w = datastet['w_init']
     feasible_w = datastet['w_gen_feas']
 
-    print initial_w
-    print feasible_w
-
-
 # -----------------------------------------------------------------------------
 # Plot
 
