@@ -29,7 +29,6 @@ def eval_weight(neg_examples, pos_examples, w):
 
     return (neg_mistakes, pos_mistakes)
 
-
 def update_weights(neg_examples, pos_examples, w, learn_rate):
     def apply_neg(w, example):
         a = activation(example, w)
