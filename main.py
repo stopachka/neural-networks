@@ -20,7 +20,6 @@ def eval_weight(neg_examples, pos_examples, w):
         res = []
         for (idx, row) in enumerate(examples):
             activation = np.dot(row, w)
-            print activation
             if filter_fn(activation):
                 res.append(idx)
 
