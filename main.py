@@ -10,5 +10,33 @@ def add_bias(examples):
 def learn(datastet):
     neg_examples = add_bias(datastet['neg_examples_nobias'])
     pos_examples = add_bias(datastet['pos_examples_nobias'])
-    w_init = datastet['w_init']
-    w_gen_feas = datastet['w_gen_feas']
+    initial_w = datastet['w_init']
+    feasible_w = datastet['w_gen_feas']
+
+    print eval_weight(neg_examples, pos_examples, initial_w)
+
+def eval_weight(neg_examples, pos_examples, w):
+    def mistakes(filter_fn, examples):
+        res = []
+        for (idx, row) in enumerate(examples):
+            activation = np.dot(row, w)
+            print activation
+            if filter_fn(activation):
+                res.append(idx)
+
+        return res
+
+    mistakes0 = mistakes(
+        lambda activation: activation >= 0,
+        neg_examples
+    )
+
+    mistakes1 = mistakes(
+        lambda activation: activation < 0,
+        pos_examples
+    )
+
+    return (mistakes0, mistakes1)
+
+
+learn(load_data('dataset1.mat'))
