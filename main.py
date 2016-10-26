@@ -40,7 +40,6 @@ def update_weights(neg_examples, pos_examples, w, learn_rate):
     def apply_pos(w, example):
         a = activation(example, w)
         if a < 0:
-            print
             return w + learn_rate * np.column_stack(example).T * (1.0 - a)
         else:
             return w
