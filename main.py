@@ -1,6 +1,9 @@
 import scipy.io as sio
 import numpy as np
 
+# -----------------------------------------------------------------------------
+# Learn
+
 def load_data(name):
     return sio.loadmat('coursera/Datasets/' + name)
 
@@ -15,12 +18,15 @@ def learn(datastet):
 
     print eval_weight(neg_examples, pos_examples, initial_w)
 
+def activation(example, w):
+    return np.dot(example, w)
+
 def eval_weight(neg_examples, pos_examples, w):
     def mistakes(filter_fn, examples):
         res = []
         for (idx, row) in enumerate(examples):
-            activation = np.dot(row, w)
-            if filter_fn(activation):
+            a = activation(row, w)
+            if filter_fn(a):
                 res.append(idx)
 
         return res
@@ -37,5 +43,13 @@ def eval_weight(neg_examples, pos_examples, w):
 
     return (mistakes0, mistakes1)
 
+# -----------------------------------------------------------------------------
+# Plot
 
-learn(load_data('dataset1.mat'))
+# -----------------------------------------------------------------------------
+# Init
+
+def init():
+    print "Todo"
+
+init()
