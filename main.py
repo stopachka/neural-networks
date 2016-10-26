@@ -14,26 +14,19 @@ def activation(example, w):
     return np.dot(example, w)
 
 def eval_weight(neg_examples, pos_examples, w):
-    def mistakes(filter_fn, examples):
-        res = []
-        for (idx, row) in enumerate(examples):
-            a = activation(row, w)
-            if filter_fn(a):
-                res.append(idx)
+    def mistakes(f, examples):
+        return map(
+            lambda (idx, row): idx,
+            filter(
+                lambda (idx, row): f(activation(row, w)),
+                enumerate(examples)
+            )
+        )
 
-        return res
+    neg_mistakes = mistakes(lambda a: a >= 0, neg_examples)
+    pos_mistakes = mistakes(lambda a: a < 0, pos_examples)
 
-    mistakes0 = mistakes(
-        lambda activation: activation >= 0,
-        neg_examples
-    )
-
-    mistakes1 = mistakes(
-        lambda activation: activation < 0,
-        pos_examples
-    )
-
-    return (mistakes0, mistakes1)
+    return (neg_mistakes, pos_mistakes)
 
 def learn(datastet):
     neg_examples = add_bias(datastet['neg_examples_nobias'])
