@@ -122,4 +122,5 @@ def init():
 
     learn(neg_examples, pos_examples, initial_w, feasible_w)
 
-init()
+if __name__ == '__main__':
+    init()
