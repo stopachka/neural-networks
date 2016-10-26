@@ -49,12 +49,7 @@ def update_weights(neg_examples, pos_examples, w, learn_rate):
 def learn(neg_examples, pos_examples, w, feasible, learn_rate = 1/2.0):
     def recur(w, error_history, weight_dist_history):
         (error_history, weight_dist_history) = display(
-            neg_examples,
-            pos_examples,
-            w,
-            feasible,
-            error_history,
-            weight_dist_history
+            neg_examples, pos_examples, w, feasible, error_history, weight_dist_history
         )
 
         new_w = update_weights(neg_examples, pos_examples, w, learn_rate)
@@ -72,14 +67,7 @@ def learn(neg_examples, pos_examples, w, feasible, learn_rate = 1/2.0):
 # -----------------------------------------------------------------------------
 # display
 
-def display(
-    neg_examples,
-    pos_examples,
-    w,
-    feasible,
-    error_history,
-    weight_dist_history
-):
+def display(neg_examples, pos_examples, w, feasible, error_history, weight_dist_history):
     (neg_mistakes, pos_mistakes) = eval_weight(neg_examples, pos_examples, w)
 
     error_history = error_history + [len(neg_mistakes) + len(pos_mistakes)]
@@ -89,15 +77,8 @@ def display(
     print 'positive sample errors: ', len(pos_mistakes)
     print 'weights: ', w,
 
-    plot_perceptron(
-        neg_examples,
-        pos_examples,
-        neg_mistakes,
-        pos_mistakes,
-        error_history,
-        w,
-        weight_dist_history
-    )
+    plot_perceptron(neg_examples, pos_examples, neg_mistakes, pos_mistakes,
+                    error_history, w, weight_dist_history)
 
     return (error_history, weight_dist_history)
 
