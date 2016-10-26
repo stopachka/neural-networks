@@ -55,7 +55,6 @@ def learn(neg_examples, pos_examples, w, feasible, learn_rate = 1/2.0):
         new_w = update_weights(neg_examples, pos_examples, w, learn_rate)
 
         choice = raw_input('Continue? (y/n)')
-
         if choice == 'y':
             recur(new_w, error_history, weight_dist_history)
         else:
