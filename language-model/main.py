@@ -5,7 +5,7 @@ import scipy.io as sio
 # init
 
 def init():
-    print "hello"
+    dataset = sio.loadmat('coursera/data.mat')['data']
 
 if __name__ == '__main__':
     init()
