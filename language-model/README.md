@@ -1,0 +1,5 @@
+# perceptrons
+
+```
+  python main.py
+```
